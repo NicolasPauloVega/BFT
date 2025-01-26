@@ -1,0 +1,621 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+    <section class="page-section bg-primary text-white mb-0" id="objetivo">
+        <div class="container">
+            <h2 class="page-section-heading text-center text-uppercase text-white">Objetivo</h2>
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fa-solid fa-circle-info"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <div>
+                <div class="text-center objects" style="font-size: 25px;">
+                    <p>El aplicativo Bienestar y Felicidad, tiene como objetivo sensibilizar de manera dinámica y divertida a todos los trabajadores de Positiva Compañía de Seguros Sucursal Tolima en seis programas que garantizan el bienestar físico, mental y emociona propio y del entorno en el que convive diariamente: Hábitos Saludables, Medio Ambiente, Reciclaje, Botellitas de Amor, Coala y Tapitas Positivas.</p>
+                    <input type="button" value="Reglamento" class="btn btn-reglamento" data-bs-toggle="modal" data-bs-target="#reglamentoModal">
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section class="page-section portfolio" id="programas">
+        <div class="container">
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">PROGRAMAS</h2>
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fa-solid fa-newspaper"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static "assets/img/portfolio/saludable.png" %}" alt="..." />
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
+                    <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal4">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static "assets/img/portfolio/tierra.png" %}" alt="..." />
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static "assets/img/portfolio/corazon.png" %}" alt="..." />
+                    </div> 
+                </div> 
+                <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal3">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static "assets/img/portfolio/botella.png" %}" alt="..." />
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-5 mb-md-0">
+                    <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal5">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static "assets/img/portfolio/papelera-de-reciclaje.png" %}" alt="..." />
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal6">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{% static "assets/img/portfolio/coala.png" %}" alt="..." />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section class="page-section bg-primary text-white mb-0" id="usuarios">
+        <div class="container-fluid">
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">USUARIOS</h2>
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            {% if authenticate %}
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Perfil</th>
+                                    <th>N° Documento</th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Puntos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for usuario in usuarios %}
+                                    <tr>
+                                        <td>
+                                            {% if usuario.img %}
+                                                <img src="{{ usuario.img.url }}" alt="{{ usuario.nombre }}" class="img-profile" id="profile">
+                                            {% else %}
+                                                <p>x</p>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ usuario.id }}</td>
+                                        <td>{{ usuario.nombre }}</td>
+                                        <td>{{ usuario.email }}</td>
+                                        <td>{{ usuario.total_puntos }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <h1 class="text-center text-uppercase text-secondary mb-0">Iniciar sesion para ver los usuario</h1>
+            {% endif %}
+        
+        </div>
+    </section>
+    
+    {% comment modals %} info programs {% endcomment %}
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                <div class="modal-body text-center pb-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Hábitos saludables</h2>
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <img class="img-fluid rounded mb-5" src="{% static "assets/img/portfolio/saludable.png" %}" alt="..." />
+                                <p class="mb-4">Son esenciales para disfrutar de una vida más plena, reducir el riesgo de enfermedades, vivir más tiempo y con mejor calidad de vida.</p>
+                                <ul class="text-start">
+                                    <li>Con una alimentación equilibrada acompañada de frutas y verduras se reduce el riesgo de enfermedades crónicas, como diabetes, hipertensión, enfermedades cardiovasculares y obesidad.</li>
+                                    <li>El ejercicio regular libera endorfinas, conocidas como las "hormonas de la felicidad", que mejoran el estado de ánimo, reducen el estrés y la ansiedad, y favorecen el bienestar mental.</li>
+                                    <li>La Hidratación es importante en el cuerpo humano ya que regula la temperatura, es necesaria para la digestión, elimina toxinas y desechos, mantiene la piel saludable y evita dolores de cabeza y migrañas.</li>
+                                    <li>La Cardio Rumba mejora la salud cardiovascular, quema calorías, reduce el estrés, y mejora el estado de ánimo.</li>
+                                    <li>Las pausas activas son fundamentales ayudan a prevenir enfermedades laborales, problemas físicos como dolores musculares o problemas circulatorios, mejora tu concentración, reduce el estrés y aumentan tu energía y rendimiento laboral.</li>
+                                </ul>
+                                <p class="mb-4">Para este programa el trabajador debe estar fortalecido de Amor Propio ya que podrá enviar una foto diaria por actividad para sumar puntos. Pero si su oponente lo encuentra realizando un hábito No Saludable, se hará efectiva la resta de puntos correspondientes.</p>
+                                <div class="mb-4 table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>PROGRAMA</th>
+                                                <th>ACTIVIDADES</th>
+                                                <th>PUNTOS SUMADOS</th>
+                                                <th>PUNTOS RESTADOS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="10">HÁBITOS SALUDABLE</td>
+                                                <td>CONSUME FRUTAS</td>
+                                                <td>100</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>CONSUME VERDURAS</td>
+                                                <td>100</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>SE HIDRATA</td>
+                                                <td>100</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>PARTICIPA EN CARDIO RUMBA</td>
+                                                <td>100</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>HACE PAUSAS ACTIVAS</td>
+                                                <td>100</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>CONSUME DULCES</td>
+                                                <td></td>
+                                                <td>100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>CONSUME COMIDA CHATARRA</td>
+                                                <td></td>
+                                                <td>100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>CONSUME GASEOSAS Y JUGOS ARTIFICIALES</td>
+                                                <td></td>
+                                                <td>100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>NO PARTICIPA EN CARDIO RUMBA</td>
+                                                <td></td>
+                                                <td>100</td>
+                                            </tr>
+                                            <tr>
+                                                <td>NO HACE PAUSAS ACTIVAS</td>
+                                                <td></td>
+                                                <td>100</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mb-4">Establecer hábitos saludables requiere compromiso, constancia y disciplina. Si me amo debo cuidarme, priorizar mi salud, y tomar decisiones más conscientes en mi vida cotidiana.</p>
+                                <strong>“Animo, aquí puedes realizar muchos puntos diariamente”</strong><br><br>
+                                <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <i class="fas fa-xmark fa-fw"></i>
+                                    Cerrar ventana
+                                </button>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" aria-labelledby="portfolioModal2" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                <div class="modal-body text-center pb-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <!-- Portfolio Modal - Title-->
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Tapitas positiva</h2>
+                                <!-- Icon Divider-->
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <!-- Portfolio Modal - Image-->
+                                <img class="img-fluid rounded mb-5" src="{% static "assets/img/portfolio/corazon.png" %}" alt="..." />
+                                <!-- Portfolio Modal - Text-->
+                                <p class="mb-4">El reciclar tapas de gaseosa es importante porque aunque las tapas de gaseosa son pequeños objetos del día a día, su reciclaje es una práctica clave para reducir la contaminación, conservar recursos naturales y promover una economía más sostenible. Contribuir a su reciclaje no solo ayuda a proteger el medio ambiente y la biodiversidad, sino que también impulsa el cambio hacia un futuro más consciente y responsable, en el que las acciones individuales tienen un impacto positivo en la salud planetaria. La suma de pequeñas acciones como esta puede ser un paso importante hacia una transformación más profunda en nuestras prácticas de consumo y gestión de residuos.</p>
+                                <p class="mb-4">Para este programa el trabajador debe enfocarse en recolectar y reciclar mínimo 5 tapas plásticas de gaseosa o medicamentosos al mes para obtener 200 puntos; pero si no presenta el total del mínimo de tapas mensuales, se hará efectiva la resta de puntos correspondientes.</p>
+                                <div class="mb-4 table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>PROGRAMA</th>
+                                                <th>ACTIVIDADES</th>
+                                                <th>PUNTOS SUMADOS</th>
+                                                <th>PUNTOS RESTADOS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="2">HÁBITOS SALUDABLE</td>
+                                                <td>ENTREGA MINIMO 5 TAPITAS POR MES</td>
+                                                <td>200</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>NO ENTREGA TAPITAS POR MES</td>
+                                                <td></td>
+                                                <td>200</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mb-4">El futuro está en nuestras manos, y cada tapa reciclada es un paso hacia un planeta más limpio. Reciclando tapas demuestras que las pequeñas acciones tienen un gran poder en la conservación del medio ambiente.</p>
+                                <strong>“Animo, aunque no tomes gaseosa veras en tu entorno la invasión de estas”</strong><br><br>
+                                <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <i class="fas fa-xmark fa-fw"></i>
+                                    Cerrar ventana
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" aria-labelledby="portfolioModal3" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                <div class="modal-body text-center pb-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <!-- Portfolio Modal - Title-->
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Botellitas con amor</h2>
+                                <!-- Icon Divider-->
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <!-- Portfolio Modal - Image-->
+                                <img class="img-fluid rounded mb-5" src="{% static "assets/img/portfolio/botella.png" %}" alt="..." />
+                                <!-- Portfolio Modal - Text-->
+                                <p class="mb-4">Botellitas de Amor es importante porque integra el reciclaje con la solidaridad social y el respeto por el medio ambiente. Al convertir los plásticos que suelen terminar en  el suelo, ríos y océanos, en material útil para la construcción de viviendas y parques infantiles para personas en situación de vulnerabilidad, promueve una economía circular y contribuye a resolver problemas sociales y ambientales.</p>
+                                <p class="mb-4">Para este programa el trabajador debe enfocarse en recolectar y reciclar plásticos como envoltorios de golosinas y bolsas, y depositarlos en una Botella pipona mayor a 2 litros para obtener 500 puntos, o en su defecto una mayor a 250 cc, las cuales deben estar completamente compactadas y certificadas por un miembro del Voluntariado Ambiental. Las botellas pueden reciclarse desde casa o reciclarse en la oficina; pero si no presenta botellitas en el mes, se hará efectiva la resta de puntos correspondientes.</p>
+                                <div class="mb-4 table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>PROGRAMA</th>
+                                                <th>ACTIVIDADES</th>
+                                                <th>PUNTOS SUMADOS</th>
+                                                <th>PUNTOS RESTADOS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="4">BOTELLITAS CON AMOR</td>
+                                                <td>BOTELLITA MAYOR  A 2 LITROS</td>
+                                                <td>500</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>BOTELLITA MAYOR 250 cc</td>
+                                                <td>300</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>BOTELLITA MAYOR  A 2 LITROS</td>
+                                                <td>500</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>BOTELLITA MAYOR 250 cc</td>
+                                                <td>300</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mb-4">Las botellitas de amor no solo transforman plásticos, transforman vidas; porque reciclar no es solo cuidar el medio ambiente, es construir un futuro mejor para todos.</p>
+                                <strong>“Animo, aquí puedes obtener la mayor puntuación del mes”</strong><br><br>
+                                <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <i class="fas fa-xmark fa-fw"></i>
+                                    Cerrar ventana
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" aria-labelledby="portfolioModal4" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                <div class="modal-body text-center pb-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Medio ambiente</h2>
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <img class="img-fluid rounded mb-5" src="{% static "assets/img/portfolio/tierra.png" %}" alt="..." />
+                                <p class="mb-4">Cuidar el medio ambiente es importante porque afecta tanto nuestra calidad de vida actual como el bienestar de las generaciones futuras. Por ello la importancia de ahorrar energía, cuidar el agua y reducir el uso de papel.</p>
+                                <ul class="text-start">
+                                    <li>Ahorrar energía ayuda a reducir las emisiones de gases que contribuyen al cambio climático y beneficia al bolsillo, pues reduce el costo de electricidad.</li>
+                                    <li>El uso irresponsable de agua pone en riesgo el acceso a este recurso para millones de personas; y su contaminación no solo no solo pone en peligro a las personas, sino también a los ecosistemas acuáticos y la fauna que depende de ellos.</li>
+                                    <li>La producción de papel implica talar árboles, un recurso vital para la generación del oxigeno del ser humano. Reduciendo el consumo de papel se disminuye la deforestación, se protegen los bosques y se regula el clima.</li>
+                                </ul>
+                                <p class="mb-4">Para este programa al trabajador solo se le hará efectivo la resta de puntos correspondiente a la actividad. Aquí los oponentes serán los protagonistas, ya que estarán atentos para enviar la evidencia fotográfica.</p>
+                                <div class="mb-4 table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>PROGRAMA</th>
+                                                <th>ACTIVIDADES</th>
+                                                <th>PUNTOS SUMADOS</th>
+                                                <th>PUNTOS RESTADOS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="5">MEDIO AMBIENTE</td>
+                                                <td>DEJA LUCES PRENDIDAS</td>
+                                                <td></td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>DEJA AIRE ACONDICIONADO PRENDIDO</td>
+                                                <td></td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>DEJA LAVA MANOS Y/O LAVA PLATOS ABIERTO</td>
+                                                <td></td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>NO IMPRIME EN PAPEL RECICLBLE</td>
+                                                <td></td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>REIMPRIME INNESESRIAMENTE</td>
+                                                <td></td>
+                                                <td>50</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mb-4">Para cuidar el Medio Ambiente solo se requiere voluntad y concentración. Si amo mi planeta, el lugar donde vivo, donde trabajo, debo ser responsable con la luz, el agua y el papel.</p>
+                                <strong>“Animo, evita que tus puntos sean restados con estas malas actividades”</strong><br><br>
+                                <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <i class="fas fa-xmark fa-fw"></i>
+                                    Cerrar ventana
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" aria-labelledby="portfolioModal5" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                <div class="modal-body text-center pb-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Reciclaje</h2>
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <img class="img-fluid rounded mb-5" src="{% static "assets/img/portfolio/papelera-de-reciclaje.png" %}" alt="..." />
+                                <p class="mb-4">Reciclar es una forma de asumir nuestra responsabilidad ética y social hacia el planeta y las generaciones futuras. Si reciclamos, contribuimos a la preservación del entorno para que las futuras generaciones puedan disfrutar de un mundo más saludable.</p>
+                                <ul class="text-start">
+                                    <li>Al reciclar materiales como el papel, el plástico o el vidrio, evita la necesidad de producir nuevos productos desde cero, lo que reduce las emisiones de gases contaminantes a la atmósfera y evitando que los recursos naturales se agoten rápido.</li>
+                                    <li>Si se recicla se evita que nuestros ríos y mares se contaminen y se extinga nuestra fauna acuáticas y marinas.</li>
+                                    <li>El Reciclaje genera empleos fomentando la economía local, y contribuye al desarrollo sostenible.</li>
+                                </ul>
+                                <p class="mb-4">Para este programa el trabajador debe tener claro que se deposita en la caneca blanca, verde y negra para que pueda introducir adecuadamente los elementos. Recuerde que debe enviar la evidencia fotográfica para sumar puntos en el mes. Pero si su oponente lo encuentra haciendo el depósito inadecuadamente, se hará efectiva la resta de puntos correspondientes.</p>
+                                <div class="mb-4 table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>PROGRAMA</th>
+                                                <th>ACTIVIDADES</th>
+                                                <th>PUNTOS SUMADOS</th>
+                                                <th>PUNTOS RESTADOS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="6">RECICLAJE</td>
+                                                <td>UTILIZA ADECUADAMENTE CANECA BLANCA</td>
+                                                <td>50</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>UTILIZA ADECUADAMENTE CANECA NEGRA</td>
+                                                <td>50</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>UTILIZA ADECUADAMENTE CANECA VERDE</td>
+                                                <td>50</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>NO UTILIZA ADECUADAMENTE CANECA BLANCA</td>
+                                                <td></td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>NO UTILIZA ADECUADAMENTE CANECA NEGRA</td>
+                                                <td></td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>NO UTILIZA ADECUADAMENTE CANECA VERDE</td>
+                                                <td></td>
+                                                <td>50</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mb-4">Reciclar no es una opción, es una responsabilidad. Si quieres hacer algo más fácil por el planeta donde vives y viven los seres que amas, Recicla.</p>
+                                <strong>“Animo, aquí puedes realizar puntos positivos para el mes”</strong><br><br>
+                                <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <i class="fas fa-xmark fa-fw"></i>
+                                    Cerrar ventana
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" aria-labelledby="portfolioModal6" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                <div class="modal-body text-center pb-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Coala</h2>
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <img class="img-fluid rounded mb-5" src="{% static "assets/img/portfolio/coala.png" %}" alt="..." />
+                                <p class="mb-4">Para este programa la Gerente programará una inspección a los puestos de trabajo sin previo aviso y designará a un funcionario de Planta para que lo realice. Dicho funcionario enviará las respectivas evidencias fotográficas informando si Cumple o No Cumple.</p>
+                                <div class="mb-4 table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>PROGRAMA</th>
+                                                <th>ACTIVIDADES</th>
+                                                <th>PUNTOS SUMADOS</th>
+                                                <th>PUNTOS RESTADOS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="2">HÁBITOS SALUDABLE</td>
+                                                <td>CUMPLE CON COALA</td>
+                                                <td>200</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>NO CUMPLE CON COALA</td>
+                                                <td></td>
+                                                <td>200</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <i class="fas fa-xmark fa-fw"></i>
+                                    Cerrar ventana
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="reglamentoModal" tabindex="-1" aria-labelledby="reglamentoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-uppercase text-secondary" id="reglamentoModalLabel">Reglamento</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center pb-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10">
+                                <!-- Título -->
+                                <h2 class="text-secondary text-uppercase mb-4">REGLAS DEL JUEGO</h2>
+                                <!-- Divisor -->
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-book"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <!-- Contenido del reglamento -->
+                                <p class="mb-4">Este juego consta de 5 programas (Hábitos Saludables, Medio Ambiente, Reciclaje, Botellitas de Amor, Coala y Tapitas Positivas) y cada programa tiene unas actividades que te pueden sumar puntos o restarlos.</p>
+                                <p class="mb-4">Cada trabajador inicia con 1.000 puntos, si realizas actividades de Bienestar y Felicidad en el mes, podrás sumar puntos, pero si no las realizas o tienes malas acciones los puntos se te restaran.</p>
+                                <p class="mb-4">Para sumar puntos cada trabajador debe enviar la evidencia fotográfica al grupo de Whatsap de Bienestar de la Sucursal, para que el Administrador que es el Gestor Humano o de la Felicidad suba la evidencia al Aplicativo y el aplicativo asignará los puntos correspondientes a la actividad. Solo se puede enviar una foto diaria por actividad.</p>
+                                <p class="mb-4">Para restar puntos, los trabajadores oponentes deben enviar la evidencia fotográfica al grupo de Whatsap de Bienestar de la Sucursal, para que el Administrador que es el Gestor Humano o de la Felicidad suba la evidencia al Aplicativo y el aplicativo restará los puntos correspondientes a la actividad. Solo se puede enviar una foto diaria por actividad.</p>
+                                <p class="mb-4">Es importante resaltar que en el momento en que los oponentes envíen la evidencia de la mala acción, los trabajadores infractores deben evitar cualquier pensamiento negativo hacia el oponente; aquí nada es personal. Recuerde que esto es solo un juego donde todos vamos a aprender a ser mejores seres humanos y hacer felices.</p>
+                                <p class="mb-4">Al final del mes en el Comité General el aplicativo arrojará la puntuación de cada trabajador y quien más tenga puntos será el Feliz Ganador de un obsequio concedido por la Gerente de la Sucursal.</p>
+                                <p class="mb-4">Cada trabajador tendrá un usuario y contraseña al aplicativo para que pueda ingresar, revisar sus puntos y las evidencias tanto propias como la de los demás.</p>
+                                <!-- Botón para cerrar -->
+                                <button class="btn btn-primary" data-bs-dismiss="modal">
+                                    <i class="fas fa-times"></i>
+                                    Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="miModal" class="modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-center">
+            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2" aria-label="Close"></button>
+            <div class="modal-body p-3">
+              <img class="img-fluid rounded" id="img01" alt="Imagen modal">
+            </div>
+          </div>
+        </div>
+    </div>
+    <script src="{% static 'js/modal.js' %}"></script>
+{% endblock %}

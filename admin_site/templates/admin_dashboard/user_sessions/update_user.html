@@ -1,0 +1,62 @@
+{% extends "layout_admin.html" %}
+{% load static %}
+{% block title %}BFTA - USUARIOS{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Editar Usuario</h1>
+                        </div>
+                        <form class="user" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="alert-container">
+                                {% if messages %}
+                                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                        {% for message in messages %}
+                                            {{ message }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-15">
+                                    {{ form.nombre }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-15">
+                                    {{ form.img }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.email }}
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    {{ form.rol.label_tag }}
+                                    {{ form.rol }}
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    {{ form.habilitacion.label_tag }}
+                                    {{ form.habilitacion }}
+                                </div>
+                            </div>
+                            <button class="btn btn-success btn-user btn-block" id="register-button">Actualizar</button>
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'tables' %}">Volver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

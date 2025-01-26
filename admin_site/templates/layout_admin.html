@@ -1,0 +1,235 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" type="image/x-icon" href="{% static "assets/img/logo.png" %}" />
+    <title>{% block title %}BFTA - PANEL DE ADMINISTRADOR{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="{% static "admin/vendor/fontawesome-free/css/all.min.css" %}" rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/93981ca0bd.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="{% static "admin/css/sb-admin-2.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/important_admin.css" %}?v=1.0" rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        {% if request.session.user_id %}
+            {% comment Information %} Siderbar {% endcomment %}
+            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                {% comment Sidebar %} Brand {% endcomment %}
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url "index" %}">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-laugh-wink"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">Admin</div>
+                </a>
+
+                {% comment Sidebar %} Divider {% endcomment %}
+                <hr class="sidebar-divider my-0">
+
+                {% comment Nav Item %} Dashboard {% endcomment %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url "index" %}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Panel de control</span></a>
+                </li>
+
+                {% comment Sidebar %} Divider {% endcomment %}
+                <hr class="sidebar-divider">
+
+                {% comment Sidebar %} Heading {% endcomment %}
+                <div class="sidebar-heading">
+                    Apoyo
+                </div>
+
+                {% comment Nav Item %} Pages Collapse Menu {% endcomment %}
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Acciones</span>
+                    </a>
+                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="{% url "register" %}">Registrar usuario</a>
+                            <a class="collapse-item" href="{% url "forgot-password" %}">¿Olvido su contraseña?</a>
+                            <div class="collapse-divider"></div>
+                        </div>
+                    </div>
+                </li>
+
+                {% comment Nav Item %} Charts {% endcomment %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "charts" %}">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Graficas</span>
+                    </a>
+                </li>
+
+                {% comment Nav Item %} User {% endcomment %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "tables" %}">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>Usuarios</span>
+                    </a>  
+                </li>
+
+                {% comment Nav Item %} Category {% endcomment %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "category" %}">
+                        <i class="fa-solid fa-icons"></i>
+                        <span>Categorias</span>
+                    </a>
+                </li>
+
+            </ul>
+            {% comment Sidebar %} End of Sidebar {% endcomment %}
+        {% endif %}
+
+        {% comment Content %} Wrapper {% endcomment %}
+        <div id="content-wrapper" class="d-flex flex-column">
+            {% if request.session.user_id %}
+                {% comment Navbar %} Topbar {% endcomment %}
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    {% comment Topbar %} Sidebar Toggle {% endcomment %}
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    {% comment Topbar %} Search {% endcomment %}
+                    <div class="my-4">
+                        <img src="{% static 'assets/img/positva-fondo.png' %}" alt="Positiva Fondo" class="img-fluid">
+                    </div>                
+
+                    {% comment Topbar %} Navbar {% endcomment %}
+                    <ul class="navbar-nav ml-auto">
+
+                        {% comment Nav Item %} Search Dropdown (Visible Only XS) {% endcomment %}
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            {% comment Dropdown %} Messages {% endcomment %}
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        {% comment Nav Item %} User Information {% endcomment %}
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if request.session.user_id %}
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{ request.session.user_name }}
+                                </span>
+                                {% endif %}
+                                <img class="img-profile rounded-circle"
+                                    src="{% static "admin/img/undraw_profile.svg" %}">
+                            </a>
+                            {% comment Dropdown %} User Information {% endcomment %}
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                    aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Cerrar sesión
+                                    </a>
+                                </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                {% comment Topbar %} End of Topbar {% endcomment %}
+            {% endif %}
+
+            {% block content %}{% endblock %}
+
+            {% if request.session.user_id %}
+                {% comment Footer %} Footer {% endcomment %}
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Bienestar y Felicidad Tolima (Administración) (BFTA)</span>
+                        </div>
+                    </div>
+                </footer>
+                {% comment Footer %} End of Footer {% endcomment %}
+            {% endif %}
+        </div>
+        {% comment Content %} End of Wrapper {% endcomment %}
+    </div>
+    {% comment Page %} End of Page Wrapper {% endcomment %}
+
+    {% comment Button %} Scroll to Top Button {% endcomment %}
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    {% comment Modal %} Logout {% endcomment %}
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que deseas cerrar sesión?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione "salir" a continuación si desea finalizar la sesión actual.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">cancelar</button>
+                    <a class="btn btn-primary" href="{% url "logout" %}">salir</a>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+    {% comment Bootstrap %} Bootstrap JavaScript (including Popper.js for modal functionality) {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/93981ca0bd.js" crossorigin="anonymous"></script>
+
+    <script src="{% static "admin/vendor/jquery/jquery.min.js" %}"></script>
+    <script src="{% static "admin/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+    {% comment JavaScript %} scripts {% endcomment %}
+    <script src="{% static "admin/vendor/jquery-easing/jquery.easing.min.js" %}"></script>
+
+    <script src="{% static "admin/js/sb-admin-2.min.js" %}"></script>
+
+    <script src="{% static "admin/vendor/chart.js/Chart.min.js" %}"></script>
+    <script src="{% static "admin/vendor/datatables/jquery.dataTables.min.js" %}"></script>
+    <script src="{% static "admin/vendor/datatables/dataTables.bootstrap4.min.js" %}"></script>
+
+    <script src="{% static "admin/js/demo/chart-area-demo.js" %}"></script>
+    <script src="{% static "admin/js/demo/chart-pie-demo.js" %}"></script>
+    <script src="{% static "admin/js/demo/datatables-demo.js" %}"></script>
+</body>
+</html>

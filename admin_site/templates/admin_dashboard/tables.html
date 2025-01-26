@@ -1,0 +1,67 @@
+{% extends "layout_admin.html" %}
+{% load static %}
+{% block title %}BFTA - USUARIOS{% endblock %}
+{% block content %}
+    {% comment Content %} Begin Page Content {% endcomment %}
+    <div class="container-fluid">
+        {% comment Content %} Page Heading {% endcomment %}
+        <div class="heading-block">
+            <h1 class="h3 mb-2 text-gray-800">Usuarios</h1>
+            {% if messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        </div>
+
+        {% comment Info %} DataTales {% endcomment %}
+        <div class="card shadow mb-6">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Perfil</th>
+                                <th>N° Documento</th>
+                                <th>Nombre</th>
+                                <th>Habilitado</th>
+                                <th>Puntos</th>
+                                <th>Actualizar</th>
+                                <th>Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for usuario in user %}
+                                <tr class="text-center">
+                                    <td>
+                                        {% if usuario.img %}
+                                            <img src="{{ usuario.img.url }}" alt="{{ usuario.nombre }}" class="img-profile">
+                                        {% else %}
+                                            <p>x</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ usuario.id }}</td>
+                                    <td>{{ usuario.nombre }}</td>
+                                    {% if usuario.habilitacion %}
+                                        <td>Si</td>
+                                    {% else %}
+                                        <td>No</td>
+                                    {% endif %}
+                                    <td>{{ usuario.total_puntos }}</td>
+                                    <td class="update-user"><a href="{% url "user-update" usuario.id %}" title="actualizar"><i class="fa-solid fa-wrench"></i></a></td>
+                                    <td class="text-center"><a href="{% url "points" usuario.id %}" class="text-danger"><i class="fa-solid fa-fire"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment Content %} Ending Page Content {% endcomment %}
+    
+    <script src="{% static "js/redirect.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,212 @@
+* {
+    color: #000 !important;
+}
+
+.page-section-heading {
+    color: #000 !important;
+}
+
+/* Navbar */
+#mainNAV {
+    background-color: #FF9800 !important;
+    color: #000 !important;
+}
+
+#mainNAV a {
+    color: #000 !important;
+}
+
+#mainNAV .navbar-toggler {
+    background-color: #FF9800 !important;
+    color: #FFFFFF !important;
+    border: 0px !important;
+}
+
+#mainNAV .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23FF9800' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+#mainNAV .navbar-link:hover {
+    color: #fc4401 !important;
+    background-color: #FF8C00;
+}
+
+#mainNAV .nav-item .nav-link {
+    background-color: #FF9800 !important;
+}
+
+/* Header */
+.masthead {
+    background-color: #FFFFFF !important;
+}
+
+.masthead .divider-custom-line {
+    background-color: #000 !important;
+}
+
+/* Portfolio */
+/* Fondo de la sección */
+#items {
+    background-color: #FFFFFF; /* Blanco */
+}
+
+/* Línea divisoria */
+#items .divider-custom-line {
+    background-color: #000000; /* Negro */
+}
+
+/* Icono del divisor */
+#items .divider-custom-icon {
+    color: #f06330; /* Naranja brillante */
+}
+
+/* Fondo de los items del portfolio */
+#items .portfolio-item-caption {
+    background-color: rgba(250, 99, 43, 0.9); /* Naranja translúcido */
+}
+
+/* Fondo del hover en los elementos */
+#items .portfolio-item-caption:hover {
+    background-color: #f06330; /* Naranja sólido */
+}
+
+/* Texto blanco en los captions */
+#items .portfolio-item-caption-content {
+    color: #FFFFFF; /* Blanco */
+}
+
+/* Fondo blanco de la sección */
+#items .page-section-heading {
+    color: #333333; /* Gris oscuro */
+}
+
+/* Fondo del portfolio al hacer hover */
+#items .portfolio-item:hover {
+    background-color: #f0f0f0; /* Gris muy suave */
+}
+
+/* About */
+#normas {
+    background-color: #FFFFFF !important;
+}
+
+#normas .divider-custom-line {
+    background-color: #000;
+}
+
+.bg-primary {
+    background-color: #FFFFFF !important;
+}
+
+/* Footer */
+.footer {
+    background-color: #FF8C00 !important;
+    color: #000;
+}
+
+.footer a {
+    color: #000;
+    border-color: #000;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    color: #000;
+    border-color: #000;
+}
+
+.btn-social {
+    background-color: #FFFFFF;
+    color: #000;
+    border: 1px solid #FF9800;
+}
+
+.btn-social:hover {
+    background-color: #FF9800;
+    color: #000;
+}
+
+/* copyright */
+#container-copyright small {
+    color: white !important;
+}
+
+.container-fluid {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+}
+
+.heading-block {
+    margin-bottom: 20px !important;
+    text-align: center !important;
+}
+
+.card {
+    width: 80% !important;
+    max-width: 1200px !important;
+}
+
+.objects .btn-reglamento {
+    background-color: #FF8C00; /* Verde brillante */
+    color: white; /* Texto blanco */
+    border: 2px solid black; /* Sin bordes */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negrita */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    transition: all 0.3s ease-in-out; /* Animación suave */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    cursor: pointer; /* Cambiar cursor al pasar */
+}
+
+.btn-reglamento:hover {
+    background-color: #FF9800; /* Verde más oscuro al pasar */
+    transform: scale(1.05); /* Efecto de agrandamiento */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+}
+
+.btn-reglamento:active {
+    background-color: #FF9800; /* Verde aún más oscuro al presionar */
+    transform: scale(0.98); /* Efecto de presión */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra reducida */
+}
+
+.table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+}
+
+.table th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #ffa500; /* Color naranja oscuro */
+}
+
+.img-profile {
+    width: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.modal {
+    display: none; /* Ocultar por defecto */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro transparente */
+  }
+  
+  .modal .modal-dialog {
+    max-width: 90%; /* Ajusta el ancho del modal */
+  }
+  
+  .modal img {
+    max-height: 80vh; /* Limita el alto de la imagen */
+  }
+  

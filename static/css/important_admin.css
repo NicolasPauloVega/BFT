@@ -1,0 +1,105 @@
+#accordionSidebar {
+    background-color: #f8a11f !important;
+    font-size: 20px !important;
+}
+
+.btn-orange {
+    background-color: #f8a11f !important;
+}
+
+.input-group input, button {
+    color: #000 !important;
+}
+
+#register-button {
+    color: #fff !important;
+    font-size: 15px;
+}
+
+.alert-messages {
+    background-color: red;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.alert-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-select {
+    width: 100%;
+}
+
+.img-fluid {
+    width: 20%;
+}
+
+.update-user {
+    list-style: none !important;
+}
+
+.update-user i {
+    color: orange !important;
+}
+
+.block-user {
+    list-style: none !important;
+}
+
+.block-user i {
+    color: red !important;
+}
+
+.unlock-user {
+    list-style: none !important;
+}
+
+.unlock-user i {
+    color: green !important;
+}
+
+.point-user {
+    list-style: none !important;
+}
+
+.point-user i {
+    color: #000 !important;
+}
+
+.form-user, .form-control-rol, .form-control-habilitacion {
+    font-size: .8rem;
+    border-radius: 10rem;
+}
+
+.form-control-img {
+    border-radius: 10rem;
+}
+
+.img-profile {
+    width: 50px;
+    border-radius: 50%;
+}
+
+.btn-edition {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-edition div {
+    width: 100%;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+.bg-login-image {
+    background: url('../assets/img/portfolio/coala.png') no-repeat center center;
+    background-size: contain;
+    height: 100%;
+    width: 100%;
+    min-height: 500px;
+    max-height: 500px;
+}

@@ -1,0 +1,103 @@
+{% extends "layout_admin.html" %}
+{% load static %}
+{% block title %}BFTA - Puntos{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-2">
+                                <br><br>
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">¡Bienvenido!</h1>
+                                </div>
+                                {% if messages %}
+                                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                        {% for message in messages %}
+                                            {{ message }}
+                                        {% endfor %}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                                <form class="user" method='POST' action="{% url "form-points" %}">
+                                    {% csrf_token %}
+                                    {% if messages %}
+                                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                            {% for message in messages %}
+                                                {{ message }}
+                                            {% endfor %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="idUsuario" value="{{ usuario.id }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="cboCategoria" name="categoria" class="form-control form-select">
+                                            <option value="" disabled select>Seleccione una programa</option>
+                                            {% for categoria in categoria %}
+                                                <option value="{{ categoria.id }}">
+                                                    {{ categoria.nombre }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="cboSubcategoria" name="subcategoria" class="form-control form-select">
+                                            <option value="" disabled selected>Seleccione una actividad</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group btn-edition" id="puntos-container" style="display: none;">
+                                        <div>
+                                            <input type="radio" id="btnAdd" name="puntos" value="" disabled>
+                                            <label for="btnAdd" id="puntosPositivosLabel"></label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" id="btnDel" name="puntos" value="" disabled>
+                                            <label for="btnDel" id="puntosNegativosLabel"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="file" name="img" id="img" class="form-control form-file">
+                                    </div>
+                                    <button class="btn btn-primary btn-user btn-block" id="register-button">Enviar</button>
+                                    <hr>
+                                </form>
+                                <hr>
+                                <div class="text-center">
+                                    <a class="small" href="{% url 'tables' %}">Volver</a>
+                                </div><br><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const subcategorias = {
+        {% for categoria in categoria %}
+            "{{ categoria.id }}": [
+                {% for subcategoria in subcategorias %}
+                    {% if subcategoria.categoria.id == categoria.id %}
+                        { 
+                            id: "{{ subcategoria.id }}", 
+                            nombre: "{{ subcategoria.nombre }}", 
+                            puntos_positivos: "{{ subcategoria.puntos_positivos }}",
+                            puntos_negativos: "{{ subcategoria.puntos_negativos }}"
+                        }{% if not forloop.last %},{% endif %}
+                    {% endif %}
+                {% endfor %}
+            ]{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    };
+</script>
+
+<script src="{% static "js/points1.js" %}"></script>
+{% endblock %}

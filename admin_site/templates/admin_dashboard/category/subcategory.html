@@ -1,0 +1,51 @@
+{% extends "layout_admin.html" %}
+{% load static %}
+{% block title %}Subcategoria{% endblock %}
+{% block content %}
+{% comment Content %} Begin Page Content {% endcomment %}
+    <div class="container-fluid">
+        {% comment Content %} Page Heading {% endcomment %}
+        <div class="heading-block">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h1 class="h3 mb-2 text-gray-800">Sub Categoria</h1>
+                </div>
+            </div>
+            {% if messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        </div>
+
+        {% comment Info %} DataTales {% endcomment %}
+        <div class="card shadow mb-6">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>puntos (positivos)</th>
+                                <th>puntos (negativos)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for subcategoria in subcategory %}
+                                <tr>
+                                    <td>{{ subcategoria.nombre }}</td>
+                                    <td>{{ subcategoria.puntos_positivos }}</td>
+                                    <td>{{ subcategoria.puntos_negativos }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment Content %} Ending Page Content {% endcomment %}
+{% endblock %}

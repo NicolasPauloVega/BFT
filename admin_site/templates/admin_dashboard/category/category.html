@@ -1,0 +1,62 @@
+{% extends "layout_admin.html" %}
+{% load static %}
+{% block title %}Categorias{% endblock %}
+{% block content %}
+{% comment Content %} Begin Page Content {% endcomment %}
+    <div class="container-fluid">
+        {% comment Content %} Page Heading {% endcomment %}
+        <div class="heading-block">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <h1 class="h3 mb-2 text-gray-800">Usuarios</h1>
+                </div>
+                <div class="col-sm-6 text-sm-end">
+                    <a href="{% url "category-subcategory" %}" class="btn btn-success">Agregar categoria</a>
+                </div>
+            </div>
+            {% if messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        </div>
+
+        {% comment Info %} DataTales {% endcomment %}
+        <div class="card shadow mb-6">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Ver Subcategoria</th>
+                                <th>Agregar una subcategoria</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for categoria in categoria %}
+                                <tr>
+                                    <td>{{ categoria.nombre }}</td>
+                                    <td>
+                                        <a href="{% url "subcategory-view" categoria.id %}" class="text-black">
+                                            <i class="fa-solid fa-eye"></i> 
+                                        </a>                                        
+                                    </td>
+                                    <td>
+                                        <a href="{% url "subcategory" categoria.id %}" class="text-black">
+                                            <i class="fa-solid fa-square-plus"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment Content %} Ending Page Content {% endcomment %}
+{% endblock %}
