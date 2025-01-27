@@ -22,4 +22,7 @@ urlpatterns = [
     # Points URL's
     path('puntos/<int:id_usuario>', views.points, name="points"),
     path('puntos/evaluar', views.save_form_points, name="form-points"),
+    path('evidencias/<int:id_usuario>', views.evidence, name="evidence"),
+    # Export excel
+    path("exportar-excel/", views.exportar_a_excel, name="exportar_excel"),
 ]

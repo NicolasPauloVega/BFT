@@ -17,18 +17,84 @@ from django.core.mail import send_mail
 # User validate
 from .middleware import *
 
+# Chart
+from django.db.models import Sum, Max, Min
+from django.db.models.functions import TruncMonth
+from datetime import datetime, date, timedelta
+
+# Exports excel
+import openpyxl
+from django.http import HttpResponse
+from openpyxl.styles import Alignment, Font
+
 # Create your views here.
 @login_required
 @rol_required([1]) # Solo puede entrar un administrador
 def index(request):
-    # User count
     count_user = Usuario.objects.count()
-    return render(request, "admin_dashboard/index.html", {'count': count_user})
+    count_evidence = Puntos.objects.count()
+    programs = Categoria.objects.count()
+    return render(request, "admin_dashboard/index.html", {'count': count_user, 'evidencia': count_evidence, 'programas_count': programs})
 
 @login_required
-@rol_required([1]) # Solo puede entrar un administrador
+@rol_required([1])  # Solo puede entrar un administrador
 def charts(request):
-    return render(request, "admin_dashboard/charts.html")
+    # Obtener los valores máximo y mínimo de `total_puntos`
+    mejor_puntaje = Usuario.objects.aggregate(Max('total_puntos'))['total_puntos__max']
+    peor_puntaje = Usuario.objects.aggregate(Min('total_puntos'))['total_puntos__min']
+
+    # Asegurarse de que no haya errores si no hay datos
+    top_usuarios = Usuario.objects.filter(total_puntos=mejor_puntaje) if mejor_puntaje else []
+    worse_usuarios = Usuario.objects.filter(total_puntos=peor_puntaje) if peor_puntaje else []
+
+    # Crear listas de nombres y puntos
+    nombres = [usuario.nombre for usuario in top_usuarios]
+    puntos = [usuario.total_puntos for usuario in top_usuarios]
+
+    nombre_peor = [usuario.nombre for usuario in worse_usuarios]
+    peor_puntos = [usuario.total_puntos for usuario in worse_usuarios]
+
+    # Calcular puntuaciones mensuales y anuales
+    mes_actual = datetime.now().month
+    año_actual = datetime.now().year
+
+    # Agrupar por usuario y calcular totales de puntos por mes
+    puntos_mes = (
+        Puntos.objects.filter(fecha__month=mes_actual, fecha__year=año_actual)
+        .values('usuario')
+        .annotate(total=Sum('puntos'))
+    )
+
+    puntos_anual = (
+        Puntos.objects.filter(fecha__year=año_actual)
+        .values('usuario')
+        .annotate(total=Sum('puntos'))
+    )
+
+    # Mejores y peores puntuados del mes
+    mejor_mes = puntos_mes.order_by('-total').first()
+    peor_mes = puntos_mes.order_by('total').first()
+
+    # Mejores y peores puntuados del año
+    mejor_anual = puntos_anual.order_by('-total').first()
+    peor_anual = puntos_anual.order_by('total').first()
+
+    # Contar cuántos usuarios tienen esas puntuaciones
+    count_mejor_mes = puntos_mes.filter(total=mejor_mes['total']).count() if mejor_mes else 0
+    count_peor_mes = puntos_mes.filter(total=peor_mes['total']).count() if peor_mes else 0
+    count_mejor_anual = puntos_anual.filter(total=mejor_anual['total']).count() if mejor_anual else 0
+    count_peor_anual = puntos_anual.filter(total=peor_anual['total']).count() if peor_anual else 0
+
+    # Enviar contexto adicional para gráficos
+    context = {
+        'nombres': nombres,
+        'puntos': puntos,
+        'peor_nombre': nombre_peor,
+        'peor_puntaje': peor_puntos,
+        'datos_mes': [count_mejor_mes, count_peor_mes],
+        'datos_anual': [count_mejor_anual, count_peor_anual],
+    }
+    return render(request, "admin_dashboard/charts.html", context)
 
 @login_required
 @rol_required([1]) # Solo puede entrar un administrador
@@ -123,7 +189,7 @@ def save_form_points(request):
         # Obtener valores del formulario
         usuario_id = request.POST.get('idUsuario')  # ID del usuario
         subcategoria_id = request.POST.get('subcategoria')  # Subcategoría seleccionada
-        evidencia = request.FILES.get('evidencia')  # Archivo de evidencia (opcional)
+        evidencia = request.FILES.get('img')  # Archivo de evidencia (opcional)
         puntos = int(request.POST.get('puntos'))  # Valor enviado desde el input:radio
 
         # Obtener usuario
@@ -161,12 +227,15 @@ def save_form_points(request):
 
         # Guardar cambios
         usuario.save()
-        Puntos.objects.create(
-            usuario=usuario,
-            subcategoria=subcategoria,
-            puntos=puntos_registrados,
-            evidencia=evidencia
-        )
+        if evidencia:
+            Puntos.objects.create(
+                usuario=usuario,
+                subcategoria=subcategoria,
+                puntos=puntos_registrados,
+                evidencia=evidencia  # Guarda la imagen
+            )
+        else:
+            messages.error(request, "No se subió ningún archivo de evidencia.")
 
         # Mensaje de éxito
         messages.success(request, f'Los puntos fueron {"sumados" if puntos > 0 else "restados"} correctamente')
@@ -322,3 +391,64 @@ def user_update(request, id):
         })
     # Renderizar la plantilla de actualizacion de usuario
     return render(request, 'admin_dashboard/user_sessions/update_user.html', {'form': form, 'usuario': usuario})
+
+@login_required
+@rol_required([1])
+def evidence(request, id_usuario):
+    id_usuario = Usuario.objects.get(id=id_usuario)
+    evidence = Puntos.objects.filter(usuario=id_usuario)
+    return render(request, 'admin_dashboard/evidence.html', {'evidence': evidence, 'user': id_usuario})
+
+@login_required
+@rol_required([1])
+def exportar_a_excel(request):
+    # Obtener el año y mes actuales
+    fecha_actual = datetime.now()
+    anio_actual = fecha_actual.year
+    mes_actual = fecha_actual.month
+
+    # Definir el primer y último día del mes actual
+    primer_dia_mes = date(anio_actual, mes_actual, 1)
+    if mes_actual == 12:
+        ultimo_dia_mes = date(anio_actual, mes_actual, 31)
+    else:
+        ultimo_dia_mes = date(anio_actual, mes_actual + 1, 1) - timedelta(days=1)
+
+    # Filtrar los datos entre el primer y último día del mes actual
+    datos = Puntos.objects.filter(
+        fecha__range=[primer_dia_mes, ultimo_dia_mes]
+    ).select_related('usuario', 'subcategoria')
+
+    # Crear el archivo Excel
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.title = "Reporte de Datos"
+
+    # Encabezados
+    encabezados = ["Usuario", "Subcategoría", "Puntos", "Fecha"]
+    for col_num, encabezado in enumerate(encabezados, 1):
+        celda = sheet.cell(row=1, column=col_num)
+        celda.value = encabezado
+        celda.font = Font(bold=True)
+        celda.alignment = Alignment(horizontal="center")
+
+    # Llenar las filas con los datos
+    for fila, punto in enumerate(datos, start=2):
+        sheet.cell(row=fila, column=1).value = punto.usuario.nombre
+        sheet.cell(row=fila, column=2).value = punto.subcategoria.nombre
+        sheet.cell(row=fila, column=3).value = punto.puntos
+        sheet.cell(row=fila, column=4).value = punto.fecha.strftime("%Y-%m-%d")
+
+    # Ajustar ancho de las columnas
+    sheet.column_dimensions["A"].width = 20
+    sheet.column_dimensions["B"].width = 30
+    sheet.column_dimensions["C"].width = 10
+    sheet.column_dimensions["D"].width = 15
+
+    # Generar respuesta HTTP con el archivo Excel
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = f'attachment; filename="reporte_datos_{anio_actual}_{mes_actual}.xlsx"'
+    workbook.save(response)
+    return response

@@ -23,17 +23,9 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                 {% endif %}
-                                <form class="user" method='POST' action="{% url "form-points" %}">
+                                <form class="user" method='POST' enctype="multipart/form-data" action="{% url "form-points" %}">
                                     {% csrf_token %}
-                                    {% if messages %}
-                                        <div class="alert alert-info alert-dismissible fade show" role="alert">
-                                            {% for message in messages %}
-                                                {{ message }}
-                                            {% endfor %}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
-                                    {% endif %}
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none;">
                                         <input type="text" class="form-control" name="idUsuario" value="{{ usuario.id }}" readonly>
                                     </div>
                                     <div class="form-group">

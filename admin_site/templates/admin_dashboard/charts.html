@@ -4,65 +4,157 @@
     {% comment content %} Begin Page Content {% endcomment %}
     <div class="container-fluid">
         {% comment page %} Page Heading {% endcomment %}
-        <h1 class="h3 mb-2 text-gray-800">Charts</h1>
-        <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
-            The charts below have been customized - for further customization options, please visit the <a
-                target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-                documentation</a>.</p>
-
+        <h1 class="h3 mb-2 text-gray-800">Estadísticas</h1>
+        <p class="mb-4">
+            En el presente apartado podrás observar las estadísticas mensuales, anuales y diarias de los usuarios calificadores.
+        </p>
+        <a href="{% url 'exportar_excel' %}" class="btn btn-success btn-sm mb-4"><i class="fa-solid fa-download"></i> Exportar a Excel</a>
         {% comment page %} content {% endcomment %}
         <div class="row">
             <div class="col-xl-8 col-lg-7">
                 {% comment chart %} load grafich content {% endcomment %}
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Mejores Calificados</h6>
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
+                            <canvas id="mejor_calificado"></canvas>
                         </div>
-                        <hr>
-                        Styling for the area chart can be found in the
-                        <code>/js/demo/chart-area-demo.js</code> file.
                     </div>
                 </div>
-
+            </div>
+            <div class="col-xl-4 col-lg-7">
+                {% comment chart %} load graphic content (Donut) {% endcomment %}
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Calificación Total Mensual</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-pie pt-4">
+                            <canvas id="mensual"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-8 col-lg-7">
                 {% comment chart %} load graphic content (bar) {% endcomment %}
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Peores calificados</h6>
                     </div>
                     <div class="card-body">
                         <div class="chart-bar">
-                            <canvas id="myBarChart"></canvas>
+                            <canvas id="peor_calificado"></canvas>
                         </div>
-                        <hr>
-                        Styling for the bar chart can be found in the
-                        <code>/js/demo/chart-bar-demo.js</code> file.
                     </div>
                 </div>
-
             </div>
-
-            {% comment chart %} load graphic content (Donut) {% endcomment %}
-            <div class="col-xl-4 col-lg-5">
+            <div class="col-xl-4 col-lg-6">
                 <div class="card shadow mb-4">
                     {% comment card %} Header - Dropdown {% endcomment %}
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Calificacion total Anual</h6>
                     </div>
                     {% comment card %} body {% endcomment %}
                     <div class="card-body">
                         <div class="chart-pie pt-4">
-                            <canvas id="myPieChart"></canvas>
+                            <canvas id="anual"></canvas>
                         </div>
-                        <hr>
-                        Styling for the donut chart can be found in the
-                        <code>/js/demo/chart-pie-demo.js</code> file.
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Obtener los datos desde Django (asegurarse de que estén como listas de JavaScript)
+        const usuarios = {{ nombres|safe }};
+        const puntajes = {{ puntos|safe }};
+        const loser_name = {{ peor_nombre|safe }};
+        const loser_points = {{ peor_puntaje|safe }};
+
+        // Obtener los datos del backend
+        const datosMes = {{ datos_mes|safe }};
+        const datosAnual = {{ datos_anual|safe }};
+
+        // Crear el gráfico de mejores calificados
+        const ctx = document.getElementById('mejor_calificado').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: usuarios,
+                datasets: [{
+                    label: 'Puntaje del usuario',
+                    data: puntajes,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    }
+                }
+            }
+        });
+
+        // Crear el gráfico de peores calificados
+        const ctxl = document.getElementById('peor_calificado').getContext('2d');
+        new Chart(ctxl, {
+            type: 'bar',
+            data: {
+                labels: loser_name,
+                datasets: [{
+                    label: 'Puntaje del usuario',
+                    data: loser_points,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    }
+                }
+            }
+        });
+
+        // Gráfico del mes
+        const ctxMes = document.getElementById('mensual').getContext('2d');
+        new Chart(ctxMes, {
+            type: 'doughnut',
+            data: {
+                labels: ['Mejores Puntuados', 'Peores Puntuados'],
+                datasets: [{
+                    data: datosMes,
+                    backgroundColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'top' } } }
+        });
+
+        // Gráfico del año
+        const ctxAnual = document.getElementById('anual').getContext('2d');
+        new Chart(ctxAnual, {
+            type: 'doughnut',
+            data: {
+                labels: ['Mejores Puntuados', 'Peores Puntuados'],
+                datasets: [{
+                    data: datosAnual,
+                    backgroundColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'top' } } }
+        });
+    </script>
 {% endblock %}

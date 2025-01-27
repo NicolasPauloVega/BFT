@@ -30,7 +30,8 @@
                                 <th>Habilitado</th>
                                 <th>Puntos</th>
                                 <th>Actualizar</th>
-                                <th>Puntos</th>
+                                <th>Calificar</th>
+                                <th>Evidencias</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,6 +54,7 @@
                                     <td>{{ usuario.total_puntos }}</td>
                                     <td class="update-user"><a href="{% url "user-update" usuario.id %}" title="actualizar"><i class="fa-solid fa-wrench"></i></a></td>
                                     <td class="text-center"><a href="{% url "points" usuario.id %}" class="text-danger"><i class="fa-solid fa-fire"></i></a></td>
+                                    <td class="text-center"><a href="{% url "evidence" usuario.id %}" class="text-dark"><i class="fa-solid fa-eye"></i></a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

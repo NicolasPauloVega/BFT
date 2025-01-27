@@ -53,13 +53,3 @@ class Puntos(models.Model):
 
     def __str__(self):
         return f"{self.usuario} - {self.puntos} puntos en {self.subcategoria}"
-
-class ResumenMensual(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="resumenes")
-    mes = models.DateField()  # Solo se usa el mes y año (por ejemplo, "2025-01-01")
-    total_puntos = models.IntegerField()
-    categoria_mas_puntos = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name="max_puntos")
-    categoria_menos_puntos = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name="min_puntos")
-
-    def __str__(self):
-        return f"Resumen de {self.usuario} - {self.mes.strftime('%B %Y')}"

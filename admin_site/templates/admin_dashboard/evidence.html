@@ -1,0 +1,49 @@
+{% extends "layout_admin.html" %}
+{% load static %}
+{% block title %}BFTA - Evidencias{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="heading-block">
+        <h1 class="h3 mb-2 text-gray-800">Evidencias</h1>
+    </div>
+
+    <div class="card shadow mb-6">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Nombre</th>
+                            <th>Actividades</th>
+                            <th>Fecha</th>
+                            <th>Puntos</th>
+                            <th>Evidencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for evidencia in evidence %}
+                        <tr class="text-center">
+                            <td>{{ user.nombre }}</td>
+                            <td>{{ evidencia.subcategoria }}</td>
+                            <td>{{ evidencia.fecha|date:"d/m/Y H:i" }}</td>
+                            <td>{{ evidencia.puntos }}</td>
+                            <td>
+                                {% if evidencia.evidencia %}
+                                <a href="{{ evidencia.evidencia.url }}" class="btn btn-sm" target="_blank"><i class="fa-solid fa-eye"></i></a>
+                                {% else %}
+                                No disponible
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">No se encontraron evidencias para este usuario.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

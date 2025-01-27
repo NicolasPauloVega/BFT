@@ -31,7 +31,6 @@ urlpatterns = [
     path('', index, name="home"),
     path('admin_site/', include('admin_site.urls')),
 ]
-
-urlpatterns += staticfiles_urlpatterns()
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += staticfiles_urlpatterns()
