@@ -22,9 +22,6 @@ class RegistroForm(forms.Form):
         'class': 'form-control form-control-user',
         'placeholder': 'Confirmar contraseña'
     }))
-    perfil = forms.FileField(widget=forms.FileInput(attrs={
-        'class': 'form-control form-file'
-    }))
 
 class UsuarioEditForm(forms.Form):
     rol = forms.ChoiceField(
