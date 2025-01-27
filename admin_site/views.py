@@ -265,6 +265,7 @@ def register(request):
             email = form.cleaned_data['email']
             contrasena = form.cleaned_data['contrasena']
             confirmar_contrasena = form.cleaned_data['confirmar_contrasena']
+            perfil = form.cleaned_data['perfil']
             
             # Validar contraseñas
             if contrasena != confirmar_contrasena:
@@ -287,6 +288,7 @@ def register(request):
                 nombre=nombre_usuario,
                 email=email,
                 password=make_password(contrasena),  # Encriptar la contraseña
+                img=perfil,
             )
             new_user.save()  # Guardar en la base de datos
             
