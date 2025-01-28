@@ -1,6 +1,6 @@
 {% extends "layout_admin.html" %}
 {% load static %}
-{% block title %}Categorias{% endblock %}
+{% block title %}Programas{% endblock %}
 {% block content %}
 {% comment Content %} Begin Page Content {% endcomment %}
     <div class="container-fluid">
@@ -22,6 +22,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endif %}
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-sm-12">
+                <form method="GET" action="{% url 'category' %}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="q" placeholder="Buscar programa..." value="{{ query }}">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         {% comment Info %} DataTales {% endcomment %}
@@ -51,12 +62,31 @@
                                         </a>
                                     </td>
                                 </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center">No se encontraron programas.</td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                <div class="pagination-container text-center">
+                    <span class="d-inline-block">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1&q={{ query }}" class="btn btn-secondary">Primera</a>
+                            <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}" class="btn btn-secondary">Anterior</a>
+                        {% endif %}
+    
+                        <span class="d-inline-block">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}&q={{ query }}" class="btn btn-secondary">Siguiente</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}" class="btn btn-secondary">Última</a>
+                        {% endif %}
+                    </span>
+                </div>
             </div>
         </div>
     </div>
-    {% comment Content %} Ending Page Content {% endcomment %}
+{% comment Content %} Ending Page Content {% endcomment %}
 {% endblock %}

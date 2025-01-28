@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 # User and models
 from .forms import *
@@ -97,25 +98,52 @@ def charts(request):
     return render(request, "admin_dashboard/charts.html", context)
 
 @login_required
-@rol_required([1]) # Solo puede entrar un administrador
+@rol_required([1])
 def tables(request):
-    usuario = Usuario.objects.all()
-    return render(request, "admin_dashboard/tables.html", {'user': usuario})
+    query = request.GET.get('q', '')
+    page_number = request.GET.get('page', 1)
+    
+    if query:
+        users = Usuario.objects.filter(Q(nombre__icontains=query))
+    else:
+        users = Usuario.objects.all()
+    
+    paginator = Paginator(users, 10)
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'page_obj': page_obj,
+        'query': query,
+    }
+    return render(request, 'admin_dashboard/tables.html', context)
 
 @login_required
 @rol_required([1])
 def category(request):
     categorias = Categoria.objects.all()
+
+    query = request.GET.get('q', '')
+    if query:
+        categorias = categorias.filter(nombre__icontains=query)
+
+    paginator = Paginator(categorias, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     categorias_data = [
         {
             'id': categoria.id,
             'nombre': categoria.nombre,
             'subcategorias': list(categoria.subcategorias.values('id', 'nombre', 'puntos_positivos', 'puntos_negativos')),
         }
-        for categoria in categorias
+        for categoria in page_obj
     ]
-    return render(request, "admin_dashboard/category/category.html", {'categoria': categorias_data})
-
+    
+    return render(request, "admin_dashboard/category/category.html", {
+        'categoria': categorias_data,
+        'page_obj': page_obj,
+        'query': query,
+    })
 @login_required
 @rol_required([1])
 def add_category(request):
@@ -160,11 +188,24 @@ def add_subcategory(request, categoria_id):
     
     return render(request, "admin_dashboard/category/add_subcategory.html", {'category': category})
 
+from django.core.paginator import Paginator
+
 @login_required
 @rol_required([1])
 def subcategory(request, categoria_id):
-    subcategory=Subcategoria.objects.filter(categoria=categoria_id)
-    return render(request, 'admin_dashboard/category/subcategory.html', {'subcategory': subcategory}) 
+    categoria = Categoria.objects.get(id=categoria_id)
+    
+    query = request.GET.get('q', '')
+    if query:
+        subcategory_list = Subcategoria.objects.filter(categoria=categoria,nombre__icontains=query)
+    else:
+        subcategory_list = Subcategoria.objects.filter(categoria=categoria)
+
+    paginator = Paginator(subcategory_list, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'admin_dashboard/category/subcategory.html', {'categoria': categoria, 'subcategory': page_obj, 'query': query})
 
 @login_required
 @rol_required([1])
@@ -324,7 +365,7 @@ def login(request):
 def logout(request):
     # Eliminar la sesion
     request.session.clear()
-    return redirect('login')
+    return redirect('home')
 
 def forgot_password(request):
     if request.method == 'POST':
@@ -398,8 +439,18 @@ def user_update(request, id):
 @rol_required([1])
 def evidence(request, id_usuario):
     id_usuario = Usuario.objects.get(id=id_usuario)
-    evidence = Puntos.objects.filter(usuario=id_usuario)
-    return render(request, 'admin_dashboard/evidence.html', {'evidence': evidence, 'user': id_usuario})
+    
+    query = request.GET.get('q', '')
+    if query:
+        evidence = Puntos.objects.filter(usuario=id_usuario, subcategoria__nombre__icontains=query)
+    else:
+        evidence = Puntos.objects.filter(usuario=id_usuario)
+        
+    paginator = Paginator(evidence, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'admin_dashboard/evidence.html', {'evidence': page_obj, 'user': id_usuario, 'query': query})
 
 @login_required
 @rol_required([1])

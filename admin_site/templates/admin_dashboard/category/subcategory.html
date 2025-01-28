@@ -1,51 +1,76 @@
 {% extends "layout_admin.html" %}
 {% load static %}
-{% block title %}Subcategoria{% endblock %}
+{% block title %}Actividades{% endblock %}
 {% block content %}
-{% comment Content %} Begin Page Content {% endcomment %}
-    <div class="container-fluid">
-        {% comment Content %} Page Heading {% endcomment %}
-        <div class="heading-block">
-            <div class="form-group row">
-                <div class="col-sm-6">
-                    <h1 class="h3 mb-2 text-gray-800">Actividades</h1>
-                </div>
+<div class="container-fluid">
+    <div class="heading-block">
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <h1 class="h3 mb-2 text-gray-800">Actividades</h1>
             </div>
-            {% if messages %}
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endif %}
-        </div>
-
-        {% comment Info %} DataTales {% endcomment %}
-        <div class="card shadow mb-6">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>puntos (positivos)</th>
-                                <th>puntos (negativos)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for subcategoria in subcategory %}
-                                <tr>
-                                    <td>{{ subcategoria.nombre }}</td>
-                                    <td>{{ subcategoria.puntos_positivos }}</td>
-                                    <td>{{ subcategoria.puntos_negativos }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-sm-6 text-sm-end">
+                <a href="{% url 'subcategory' categoria_id=categoria.id %}" class="btn btn-success">Agregar Actividad</a>
             </div>
         </div>
     </div>
-    {% comment Content %} Ending Page Content {% endcomment %}
+
+    <!-- Formulario de búsqueda -->
+    <form method="GET" action="{% url 'subcategory' categoria_id=categoria.id %}">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar subcategoría..." name="q" value="{{ query }}">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    {% if messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    <div class="card shadow mb-6">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puntos (Positivos)</th>
+                            <th>Puntos (Negativos)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subcategoria in subcategory %}
+                            <tr>
+                                <td>{{ subcategoria.nombre }}</td>
+                                <td>{{ subcategoria.puntos_positivos }}</td>
+                                <td>{{ subcategoria.puntos_negativos }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if subcategory.has_previous %}
+                        <a href="?page=1&q={{ query }}">&laquo; primera</a>
+                        <a href="?page={{ subcategory.previous_page_number }}&q={{ query }}">anterior</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Página {{ subcategory.number }} de {{ subcategory.paginator.num_pages }}.
+                    </span>
+
+                    {% if subcategory.has_next %}
+                        <a href="?page={{ subcategory.next_page_number }}&q={{ query }}">siguiente</a>
+                        <a href="?page={{ subcategory.paginator.num_pages }}&q={{ query }}">última &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
